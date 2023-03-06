@@ -1,0 +1,154 @@
+﻿@using DevTalles.Data;
+@using DevTalles.Models.ViewModels;
+@model CursoViewModel
+
+@{
+    var accion = "Comenzemos a Editar tu Curso";
+
+}
+
+
+<form method="post" asp-action="Upsert"  enctype="multipart/form-data">
+
+
+    @if (Model.Curso.Id != 0)
+    {
+        accion = "Crea un Nuevo Curso";
+        <input type="hidden" asp-for="Curso.Id" />
+    }
+
+    <div class="border p-3">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row">
+            <h2 class="text-info">@accion</h2>
+        </div>
+
+        <div class="row">
+            <div class="col-8">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label asp-for="Curso.NombreProducto" class="form-label">Nombre Producto</label>
+                            <input asp-for="Curso.NombreProducto" class="form-control" />
+                            <span asp-validation-for="Curso.NombreProducto" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label asp-for="Curso.Precio" class="form-label">Precio</label>
+                            <input type="number" asp-for="Curso.Precio" class="form-control" />
+                            <span asp-validation-for="Curso.Precio" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label asp-for="Curso.DescripcionCorta" class="form-label">Descripcion Corta</label>
+                            <input asp-for="Curso.DescripcionCorta" class="form-control" />
+                            <span asp-validation-for="Curso.DescripcionCorta" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label asp-for="Curso.DescripcionProducto" class="form-label">Descripcion del Producto</label>
+                            <textarea asp-for="Curso.DescripcionProducto" class="form-control summernote"></textarea>
+                            <span asp-validation-for="Curso.DescripcionProducto" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label asp-for="Curso.ImagenUrl" class="form-label">Imagen</label>
+                            <input type="file" name="files" id="imagenId" class="form-control" />
+                            <span asp-validation-for="Curso.ImagenUrl"></span>
+
+
+                        </div>
+                    </div>
+                
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label asp-for="Curso.CategoriaId" class="form-label">Categoria</label>
+                            <select asp-for="Curso.CategoriaId" asp-items="@Model.DropDowmCategoria" class="form-select">
+                                <option disabled selected>--Seleccione una Categoria</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label asp-for="Curso.SubCategoriaId" class="form-label">SubCategoria</label>
+                            <select asp-for="Curso.SubCategoriaId" asp-items="@Model.DropDowmSubCategoria" class="form-select">
+
+                                <option disabled selected>--Seleccione una subCategoria</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <br />
+
+                    <div class="d-grid gap-2 d-md-block">
+                        @if (Model.Curso.Id != 0)
+                        {
+                            <button type="submit" class="btn btn-primary">Actualizar</button>
+                        }
+                        else
+                        {
+                            <button type="submit" onclick="return validarImagen()" class="btn btn-primary">Crear Nuevo</button>
+                        }
+                        <a asp-controller="Cursos" asp-action="Index" class="btn btn-success">Regresar</a>
+                    </div>
+
+
+                </div>
+            </div>
+
+            <div class="col-4">
+                @if (Model.Curso.Id != 0)
+                {
+                    <img src="@WC.RutaImagen@Model.Curso.ImagenUrl" width="100%" style="border-radius:5px; border:1px solid #bbb" />
+                }
+
+            </div>
+        </div>
+
+
+    </div>
+
+
+
+
+
+
+</form>
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+
+    <script>
+
+        function validarImagen() {
+            if (document.getElementById("imagenId").value === "") {
+                swal("Error", "Seleccione una Imagen!", "error");
+                return false;
+            }
+            return true;
+        }
+
+
+
+
+        $(document).ready(function () {
+            $('.summernote').summernote({
+                tabsize: 2,
+                height: 400
+            })
+        });
+
+    </script>
+                        }

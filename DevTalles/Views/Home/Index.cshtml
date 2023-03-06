@@ -1,0 +1,60 @@
+@using DevTalles.Models.ViewModels;
+@model HomeVM
+
+<div class="container">
+	<div class="text-center">
+		<button class="btn btn-dark filter-button" data-filter="all">Todos</button>
+
+		@foreach (var cat in Model.Categorias)
+		{
+			<button class="btn btn-outline-secondary filter-button" data-filter="@cat.NombreCategoria.Replace(' ','_')">
+				@cat.NombreCategoria
+			</button>
+		}
+
+	</div>
+	<br />
+
+	<div class="row">
+		@foreach (var prod in Model.Cursos)
+		{
+			// Desplegar todos los productos
+			<partial name="_CardProductos" model="prod" />
+		}
+
+		<div class="validarCurso" id="no-courses-msg" style="display:none">
+			<div class="col-12 text-center">
+				<p>No hay cursos disponibles.</p>
+			</div>
+	</div>
+
+</div>
+
+@section Scripts{
+
+
+		<script>
+		$(".filter-button").click(function () {
+
+			var value = $(this).attr('data-filter');
+			if (value == "all") {
+				$('.filter').show('1000');
+			}
+			else {
+				$(".filter").not('.' + value).hide('3000');
+				$('.filter').filter('.' + value).show('3000');
+
+				// Verificar si hay elementos para mostrar
+				if ($('.filter').filter('.' + value).length == 0) {
+					$('.validarCurso').append('<div class="col-12 text-center">No hay cursos disponibles</div>');
+				} else {
+					$('.validarCurso').find('.col-12.text-center').remove(); // Si hay elementos, quitar el mensaje de "No hay cursos disponibles" si se está mostrando
+				}
+			}
+		});
+
+	</script>
+
+
+
+}

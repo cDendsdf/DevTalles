@@ -1,0 +1,123 @@
+﻿@model IEnumerable<Curso>
+
+@{
+    ViewData["Title"] = "Index";
+
+}
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">Lista de Cursos</h2>
+        </div>
+        <div class="col-6 text-end">
+            <a asp-controller="Cursos" asp-action="Upsert" class="btn btn-primary">
+                <i class="fas fa-plus"></i>  Nuevo Curso
+            </a>
+        </div>
+    </div>
+    <br />
+
+    @if (Model.Count() > 0)
+    {
+        <table class="table table-bordered table-striped" style="width:100%">
+            <thead>
+                <tr>
+                    <th>
+                        Nombre
+                    </th>
+                    <th>
+                        Precio
+                    </th>
+                    <th>
+                        Categoria
+                    </th>
+                    <th>
+                        SubCategoria
+                    </th>
+                    <th>
+
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model)
+                {
+
+                   
+                        var id = item.Id.ToString();
+                    var rutaPost = $"/Cursos/Delete/{id}";
+
+                        
+
+                    <tr>
+                        <th>@item.NombreProducto</th>
+                        <th>$@Math.Abs(item.Precio).ToString("N2")</th>
+                        <th>@item.Categoria.NombreCategoria</th>
+                        <th>@item.SubCategoria.Nombre</th>
+                        <th class="text-center">
+                            <div class="w-75 btn-group" role="group">
+                                <a asp-controller="Cursos" asp-action="Upsert" asp-route-Id="@item.Id" class="btn btn-primary mx-2">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+
+                                <a onclick=Delete("@rutaPost") class="btn btn-danger mx-2">
+                                    <i class="far fa-trash-alt"></i>
+                                </a>
+                             
+                            </div>
+
+                        </th>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    }
+    else
+    {
+        <p>No hay registros de Productos</p>
+    }
+
+</div>
+
+
+
+
+
+@section Scripts {
+
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+
+    <script>
+
+
+function Delete(url) {
+    swal({
+        title: "Esta seguro de borrar el Curso ?",
+        text: "Este contenido no se puede recuperar!",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Si, borrar!",
+        closeOnconfirm: true
+    }, function () {
+        $.ajax({
+            type: 'DELETE',
+            url: url,
+            success: function (data) {
+                if (data.success) {
+                    toastr.success(data.message);
+                    window.location.reload();
+                }
+                else {
+                    toastr.error(data.message);
+                }
+            }
+        });
+    });
+        }</script>
+}
