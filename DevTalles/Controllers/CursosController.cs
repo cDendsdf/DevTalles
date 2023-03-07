@@ -224,6 +224,11 @@ namespace DevTalles.Controllers
             }
         }
 
+
+
+
+        //metodos para llenar el SelectList
+
         public IEnumerable<SelectListItem> DropdownCategoria()
         {
             return db.Categorias.Select(c => new SelectListItem(c.NombreCategoria, c.CategoriaId.ToString()));

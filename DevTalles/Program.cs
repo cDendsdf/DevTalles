@@ -13,8 +13,8 @@ builder.Services.AddControllersWithViews();
 
 
 
-//Esta l�nea de c�digo  agrega el servicio de sesi�n al contenedor de inyecci�n de dependencias.
-//Establece la duraci�n de tiempo de inactividad de la sesi�n en 10 minutos
+//Esta l�nea de codigo  agrega el servicio de sesion al contenedor de inyecci�n de dependencias.
+//Establece la duraci�n de tiempo de inactividad de la sesion en 10 minutos
 //y establece la propiedad de la Cookie para HttpOnly y Essential a True.
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSession(Options =>

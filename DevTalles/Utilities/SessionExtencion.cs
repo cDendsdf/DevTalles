@@ -16,6 +16,7 @@ namespace DevTalles.Utilities
 
 
 
+
         public static void Set<T>(this ISession session, string Key, T value)
         {
             session.SetString(Key, JsonSerializer.Serialize(value));

@@ -1,10 +1,27 @@
 ﻿@page
+@using DevTalles.Data;
 @model RegisterModel
+
 @{
-    ViewData["Title"] = "Register";
+
+
+    var titulo = "Registrar";
+    var clase = "btn btn-primary";
+    if (User.IsInRole(WC.AdminRole))
+    {
+         titulo = "Registrar Usuario Administrador";
+         clase = "btn btn-warning";
+    }
+    else
+    {
+         titulo = "Registrar";
+         clase = "btn btn-primary";
+    }
 }
 
-<h1>@ViewData["Title"]</h1>
+
+
+<h1>@titulo</h1>
 
 <div class="row">
     <div class="col-md-4">
@@ -39,7 +56,7 @@
                 <label asp-for="Input.ConfirmPassword">Confirm Password</label>
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
-            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+            <button id="registerSubmit" type="submit" class="w-100 @clase">Register</button>
         </form>
     </div>
     <div class="col-md-6 col-md-offset-2">

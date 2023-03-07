@@ -121,7 +121,8 @@ namespace DevTalles.Areas.Identity.Pages.Account
 
         public async Task OnGetAsync(string returnUrl = null)
         {
-
+            //Este codigo se encarga de crear dos roles con sus respectivos nombres, los cuales son "AdminRole" y "ClienteRole".
+            //Si los roles no existen, son creados.
             if (!await _roleManager.RoleExistsAsync(WC.AdminRole) )
             {
                 await _roleManager.CreateAsync(new IdentityRole(WC.AdminRole));
@@ -139,6 +140,7 @@ namespace DevTalles.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 //var user = CreateUser();Acemos referencia a nuestro modelo
+                //para guardar en base de datos
 
                 var user = new UsuarioAplicacion
                 {
@@ -154,8 +156,25 @@ namespace DevTalles.Areas.Identity.Pages.Account
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
-                if (result.Succeeded)
+                if (result.Succeeded)//si se cumple se crea el usuario
                 {
+
+
+                    //Sie el usuario conectado tiene el rol de administrador se le permite
+                    //crear usuarios Administradores si no solo cliente
+                    if (User.IsInRole(WC.AdminRole))
+                    {
+                        await _userManager.AddToRoleAsync(user, WC.AdminRole);
+                    }
+                    else
+                    {
+                        await _userManager.AddToRoleAsync(user, WC.ClienteRole);
+                    }
+
+
+
+
+
                     _logger.LogInformation("User created a new account with password.");
 
                     var userId = await _userManager.GetUserIdAsync(user);

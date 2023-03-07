@@ -15,6 +15,9 @@ namespace DevTalles.Controllers
         {
             _db = db;
         }
+
+
+        //Mostramos y agrupamos las distintas categorias con las subcategorias correspondientes
         public async Task<IActionResult> Index()
         {
 
@@ -151,7 +154,7 @@ namespace DevTalles.Controllers
 
 
 
-
+        //Validamos que no se repita el nombre
 
         [HttpGet]
         public async Task<IActionResult> ValidarNombre(string nombre)

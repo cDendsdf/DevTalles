@@ -121,6 +121,8 @@ namespace DevTalles.Controllers
 
 
 
+        // Esta es una validacion a nivel del controlador valida que no se inserte el mismo nombre dos veses
+
         [HttpGet]
         public async Task<IActionResult> ValidarNombre(string NombreCategoria)
         {
