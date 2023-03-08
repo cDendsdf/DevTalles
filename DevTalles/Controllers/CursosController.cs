@@ -1,6 +1,7 @@
 ﻿using DevTalles.Data;
 using DevTalles.Models;
 using DevTalles.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -9,6 +10,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace DevTalles.Controllers
 {
+    [Authorize(Roles=WC.AdminRole)]
     public class CursosController : Controller
     {
         private readonly ApplicationDbContext db;

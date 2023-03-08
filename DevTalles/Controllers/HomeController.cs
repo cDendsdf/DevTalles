@@ -2,12 +2,14 @@
 using DevTalles.Models;
 using DevTalles.Models.ViewModels;
 using DevTalles.Utilities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace DevTalles.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -59,33 +61,7 @@ namespace DevTalles.Controllers
 		}
 
 
-        public IActionResult dada(int id)
-        {
-            List<CarroCompra> listaCompra = new List<CarroCompra>();
 
-            if (HttpContext.Session.Get<IEnumerable<CarroCompra>>(@WC.VariableSession) != null
-                && HttpContext.Session.Get<IEnumerable<CarroCompra>>(WC.VariableSession).Count() > 0)
-            {
-                listaCompra = HttpContext.Session.Get<List<CarroCompra>>(@WC.VariableSession);
-            }
-
-
-            DetalleProductoVM model = new()
-            {
-                curso = db.Cursos.Include(c => c.Categoria).Include(sb => sb.SubCategoria).Where(c => c.Id == id).FirstOrDefault(),
-                ExisteEnCarro = false
-
-            };
-
-            foreach (var item in listaCompra)
-            {
-                if (item.CursoId == id)
-                {
-                    model.ExisteEnCarro = true;
-                }
-            }
-            return View(model);
-        }
 
 
         [HttpPost , ActionName("Detalle")] 

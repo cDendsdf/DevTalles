@@ -4,8 +4,8 @@
     {
         public static string RutaImagen = @"\imagenes\productos\";
         public static string VariableSession = "VariableSession";
-        public static string AdminRole = "Admin";
-        public static string ClienteRole = "Cliente";
+        public const string AdminRole = "Admin";
+        public const string ClienteRole = "Cliente";
 
         
 

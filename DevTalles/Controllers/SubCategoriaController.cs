@@ -1,12 +1,15 @@
 ﻿using DevTalles.Data;
 using DevTalles.Models;
 using DevTalles.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 namespace DevTalles.Controllers
 {
+    [Authorize(Roles = WC.AdminRole)]
     public class SubCategoriaController : Controller
     {
         private readonly ApplicationDbContext _db;
