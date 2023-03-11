@@ -1,0 +1,31 @@
+﻿@using DevTalles.Data;
+@model OrdenDetalle
+
+<div class="col-lg-4 col-md-6 pb-4 filter @Model.Curso.Categoria.NombreCategoria.Replace(' ','_')">
+    <!-- Card-->
+    <div style="max-height:500px; min-height:500px"  class="card bg-white rounded shadow-sm" style="border:1px solid #222">
+        <div class="card-body px-3 pt-3 pb-1 row">
+            <div class="col-10">
+                <label class="float-left">@Model.Curso.NombreProducto</label></div>
+            <div class="col-2">
+                <label class="float-right">
+                    <span class="text-info h5">@Model.Curso.Precio</span>
+                </label>
+
+            </div>
+        </div>
+        <img class="card-img-top img-fluid d-block mx-auto mb-3 w-100 overflow-hidden" style="max-height:300px; " src="@WC.RutaImagen@Model.Curso.ImagenUrl" alt="Imagen Card">
+        <div class="card-body p-1 px-3 row" >
+            <div class="col-6">
+                <span class="badge p-2 border w-100 text-white" style="background-color:rgb(24, 20, 36)">@Model.Curso.Categoria.NombreCategoria</span>
+            </div>
+         
+            <div class="col-12 pt-2" style="font-size:13px; text-align:justify">
+                <p> @Model.Curso.DescripcionCorta</p>
+            </div>
+            <div class="col-12 p-1">
+                <a asp-action="DetalleCursoUsuario" asp-route-Id="@Model.Id" class="btn btn-dark form-control btn-sm p-2" style="height:40px">Iniciar Curso</a>
+            </div>
+        </div>
+    </div>
+</div>

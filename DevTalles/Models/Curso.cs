@@ -36,6 +36,7 @@ namespace DevTalles.Models
 
         [ForeignKey("SubCategoriaId")]
         public virtual SubCategoria? SubCategoria { get; set; }
+		
 
             
 
