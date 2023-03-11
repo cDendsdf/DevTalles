@@ -1,7 +1,10 @@
 ﻿@using DevTalles.Models.ViewModels;
 @model UsuarioProductoVM
 
-<form method="post" id="payment-form">
+
+
+
+<form method="post" asp-controller="Carro" id="payment-form">
     <br />
     <div class="backgroundWhiteBorder">
         <div class="container">
@@ -61,12 +64,22 @@
                                     </h4>
                                     <ul class="list-group mb-3">
 
-                                        @foreach (var item in Model.Cursos)
+                                        @for (int i = 0; i < Model.CursosLista.Count(); i++)
                                         {
+
+
+
+
                                             <li class="list-group-item d-flex justify-content-between">
+                                                <input type="hidden" asp-for="@Model.CursosLista[i].Id" />
+                                                <input type="hidden" asp-for="@Model.CursosLista[i].NombreProducto" />
+                                                <input type="hidden" asp-for="@Model.CursosLista[i].Precio" />
+
+
+
                                                 <div>
-                                                    <h6 class="my-0">@item.NombreProducto</h6>
-                                                    <small class="text-muted">Precio: $@item.Precio</small>
+                                                    <h6 class="my-0">@Model.CursosLista[i].NombreProducto</h6>
+                                                    <small class="text-muted">Precio: $@Model.CursosLista[i].Precio</small>
                                                 </div>
 
                                             </li>
@@ -82,10 +95,14 @@
                         </div>
                     </div>
                 </div>
+
+
+
                 <div class="card-footer">
                     <div class="row">
                         <div class="col-12 col-md-5 offset-md-7">
-                            <button type="submit" onclick="return validarDatos('noadmin')" class="btn btn-primary form-control">Enviar Orden</button>
+
+                            <button type="submit" class="btn btn-primary form-control ">Enviar Orden</button>
 
                         </div>
                     </div>
@@ -94,6 +111,53 @@
         </div>
     </div>
 </form>
+
+
+@section Scripts{
+    <script>
+
+        // Espera a que se cargue la página antes de ejecutar cualquier código
+        document.addEventListener('DOMContentLoaded', function () {
+            // Obtiene el formulario por su ID
+            const form = document.querySelector('#payment-form');
+            // Agrega un evento al formulario para cuando se envíe
+            form.addEventListener('submit', function (event) {
+                // Detiene el envío del formulario para poder mostrar la alerta
+                event.preventDefault();
+                // Muestra la alerta
+                Swal.fire({
+                    title: '¿Estás seguro?',
+                    text: 'Esto enviará la orden',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Sí, enviar',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    // Si el usuario hace clic en el botón "Sí, enviar", envía el formulario
+                    if (result.isConfirmed) {
+
+                        Swal.fire(
+                            'Exitoso!',
+                            'Su Orden se enviado!!.',
+                            'success'
+                        )
+
+                        setTimeout(function(){
+                            form.submit();
+                        },1000)
+                        
+                    }
+                });
+            });
+        });
+    </script>
+
+   }
+
+
+
 
 
 

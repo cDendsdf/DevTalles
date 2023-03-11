@@ -1,0 +1,11 @@
+{
+    "name": "devtalles",
+    "version": "1.0.0",
+    "description": "Proyecto Devtalles",
+    "main": "index.js",
+    "scripts": {
+        "sass": "sass --watch src/scss:wwwroot/css"
+    },
+    "author": "Carlos Medina",
+    "license": "ISC"
+}

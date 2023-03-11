@@ -4,10 +4,10 @@
     {
         public UsuarioProductoVM()
         {
-            Cursos = new List<Curso>();
+            CursosLista = new List<Curso>();
         }
 
         public UsuarioAplicacion UsuarioAplicacion { get; set; }
-        public IEnumerable<Curso> Cursos { get; set; }
+        public IList<Curso> CursosLista { get; set; }
     }
 }

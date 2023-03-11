@@ -9,7 +9,7 @@ using System.Diagnostics;
 
 namespace DevTalles.Controllers
 {
-    [Authorize]
+    
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -32,7 +32,9 @@ namespace DevTalles.Controllers
             return View(model);
         }
 
-		public  IActionResult Detalle(int id)
+
+     
+        public  IActionResult Detalle(int id)
 		{
             List<CarroCompra> listaCompra = new List<CarroCompra>();
 
@@ -62,7 +64,7 @@ namespace DevTalles.Controllers
 
 
 
-
+        [Authorize]
 
         [HttpPost , ActionName("Detalle")] 
         public IActionResult DetallePost(int id)

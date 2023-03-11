@@ -24,7 +24,7 @@ namespace DevTalles.Controllers
         public async Task<IActionResult> Index()
         {
 
-            var categoriasRelacionadas =  await _db.SubCategorias.Include(tc => tc.Categoria).ToListAsync();
+            var categoriasRelacionadas = await _db.SubCategorias.Include(tc => tc.Categoria).ToListAsync();
 
             var model = categoriasRelacionadas.GroupBy(c => c.Categoria).Select(grupo => new CategoriasSubCategoriaViewModel { Categoria = grupo.Key.NombreCategoria, SubCategorias = grupo.AsEnumerable() }).ToList();
 
@@ -48,15 +48,16 @@ namespace DevTalles.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Crear(SubCategoriaCreacionViewModel model)
         {
-            if (!ModelState.IsValid) {
+            if (!ModelState.IsValid)
+            {
                 model.DropdownCategoria = DropdownCategoria();
-                return View(model); 
-            
+                return View(model);
+
             }
 
 
 
-          
+
 
 
             _db.SubCategorias.Add(model.subCategoria);
@@ -76,19 +77,19 @@ namespace DevTalles.Controllers
             };
 
 
-           
+
             if (id is null || id == 0)
             {
                 return NotFound();
             }
 
 
-           model.subCategoria = _db.SubCategorias.Find(id);
+            model.subCategoria = _db.SubCategorias.Find(id);
 
-          
 
-            
-            
+
+
+
             if (model.subCategoria is null)
             {
                 return NotFound();
@@ -114,37 +115,22 @@ namespace DevTalles.Controllers
 
 
 
-        //get Esta Accion muestra la vista eliminar con los datos del modelo a eliminar
-        public IActionResult Eliminar(int? id)
-        {
-            if (id is null || id == 0)
-            {
-                return NotFound();
-            }
 
-            var subCategoriaDb = _db.SubCategorias.Find(id);
-            if (subCategoriaDb is null)
-            {
-                return NotFound();
-            }
-
-            return View(subCategoriaDb);
-        }
-
-
+        [HttpDelete]
         //Esta Accion Elimina el Registro en la base de datos
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Eliminar(SubCategoria model)
+
+        public async Task<ActionResult> Eliminar(int id)
         {
+
+            var model = _db.SubCategorias.Find(id);
             if (model is null) { return NotFound(); }
-
-
 
             _db.SubCategorias.Remove(model);
             await _db.SaveChangesAsync();
-            return RedirectToAction("Index");
+
+            return Json(new { success = true });
+
 
 
 
@@ -152,7 +138,7 @@ namespace DevTalles.Controllers
 
 
 
-    
+
 
 
 
@@ -162,7 +148,7 @@ namespace DevTalles.Controllers
         [HttpGet]
         public async Task<IActionResult> ValidarNombre(string nombre)
         {
-            
+
             var existe = await _db.SubCategorias.AnyAsync(name => name.Nombre == nombre);
             if (existe)
             {

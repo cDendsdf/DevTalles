@@ -87,36 +87,46 @@ namespace DevTalles.Controllers
 
 
         //get Esta Accion muestra la vista eliminar con los datos del modelo a eliminar
-        public IActionResult Eliminar(int? id)
-        {
-            if (id is null || id == 0)
-            {
-                return NotFound();
-            }
+        //public IActionResult Eliminar(int? id)
+        //{
+        //    if (id is null || id == 0)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var categoriadb = _db.Categorias.Find(id);
-            if (categoriadb is null)
-            {
-                return NotFound();
-            }
+        //    var categoriadb = _db.Categorias.Find(id);
+        //    if (categoriadb is null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(categoriadb);
-        }
+        //    return View(categoriadb);
+        //}
         
 
         //Esta Accion Elimina el Registro en la base de datos
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Eliminar(Categoria model)
+        [HttpDelete]
+        
+        public async Task<ActionResult> Eliminar(int id)
         {
-            if (model is null) { return NotFound(); }
+            var categoria = _db.Categorias.Find(id);
 
+            var subcategoria = new List<SubCategoria>();
+
+            subcategoria = _db.SubCategorias.Where(s => s.CategoriaId == id).ToList();
+
+            foreach (var item in subcategoria)
+            {
+                _db.SubCategorias.Remove(item);
+            }
+
+
+             _db.Categorias.Remove(categoria);
             
-
-             _db.Categorias.Remove(model);
             await _db.SaveChangesAsync();
-            return RedirectToAction("Index");
+
+            return Json(new { success = true , message ="Categoria borrada con exito" });
 
 
 

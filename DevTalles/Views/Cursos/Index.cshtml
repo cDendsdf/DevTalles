@@ -65,7 +65,8 @@
                                 <a onclick=Delete("@rutaPost") class="btn btn-danger mx-2">
                                     <i class="far fa-trash-alt"></i>
                                 </a>
-                             
+
+
                             </div>
 
                         </th>
@@ -77,7 +78,7 @@
     }
     else
     {
-        <p>No hay registros de Productos</p>
+        <p>No hay registros de Cursos</p>
     }
 
 </div>
@@ -95,29 +96,29 @@
     <script>
 
 
-function Delete(url) {
-    swal({
-        title: "Esta seguro de borrar el Curso ?",
-        text: "Este contenido no se puede recuperar!",
-        type: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#DD6B55",
-        confirmButtonText: "Si, borrar!",
-        closeOnconfirm: true
-    }, function () {
-        $.ajax({
-            type: 'DELETE',
-            url: url,
-            success: function (data) {
-                if (data.success) {
-                    toastr.success(data.message);
-                    window.location.reload();
-                }
-                else {
-                    toastr.error(data.message);
-                }
-            }
-        });
-    });
+        function Delete(url) {
+            swal({
+                title: "Esta seguro de borrar el Curso ?",
+                text: "Este contenido no se puede recuperar!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Si, borrar!",
+                closeOnconfirm: true
+            }, function () {
+                $.ajax({
+                    type: 'DELETE',
+                    url: url,
+                    success: function (data) {
+                        if (data.success) {
+                            toastr.success(data.message);
+                            window.location.reload();
+                        }
+                        else {
+                            toastr.error(data.message);
+                        }
+                    }
+                });
+            });
         }</script>
 }

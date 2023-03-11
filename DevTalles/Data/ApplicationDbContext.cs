@@ -14,7 +14,9 @@ namespace DevTalles.Data
         public DbSet<SubCategoria> SubCategorias { get; set; }
         public DbSet<Curso> Cursos { get; set; }
         public DbSet<UsuarioAplicacion> UsuariosAplicacion { get; set; }
+        public DbSet<Orden> Ordenes { get; set; }
+        public DbSet<OrdenDetalle> OrdenDetalles { get; set; }
 
-       
+
     }
 }

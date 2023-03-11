@@ -66,16 +66,69 @@ namespace DevTalles.Controllers
 
             List<int> idsCarroCompra = listaCompras.Select(c => c.CursoId).ToList();
 
-            IEnumerable<Curso> curso = dbContext.Cursos.Where(c => idsCarroCompra.Contains(c.Id));
+           
 
             usuarioProductoVM = new UsuarioProductoVM()
             {
                 UsuarioAplicacion = dbContext.UsuariosAplicacion.FirstOrDefault(us => us.Id == clain.Value),
-                Cursos = curso
+                CursosLista = dbContext.Cursos.Where(c => idsCarroCompra.Contains(c.Id)).ToList(),
+                
             };
+
             return View(usuarioProductoVM);
         }
 
+
+        [HttpPost]
+        [AutoValidateAntiforgeryToken]
+        [ActionName("Resumen")]
+        public IActionResult ResumenPost(UsuarioProductoVM usuarioProductoVM)
+        {
+            
+
+            var ClaimUser = (ClaimsIdentity)User.Identity;
+            var Claim = ClaimUser.FindFirst(ClaimTypes.NameIdentifier);
+
+            //Gurdamos la Orden Con la informacion del usuario
+            Orden ordenCurso = new Orden()
+
+            {
+                UsuarioAplicacionId = Claim.Value,
+                NombreCompleto = usuarioProductoVM.UsuarioAplicacion.NombreCompleto,
+                Email = usuarioProductoVM.UsuarioAplicacion.Email,
+                FechaOrden = DateTime.Now,
+                Telefono = usuarioProductoVM.UsuarioAplicacion.PhoneNumber
+            };
+
+            dbContext.Ordenes.Add(ordenCurso);
+             dbContext.SaveChanges();
+
+            //Grabamos la orden con la data relacionada entre orden y producto
+
+            foreach (var curso in usuarioProductoVM.CursosLista)
+            {
+                OrdenDetalle ordenDetalle = new OrdenDetalle()
+                {
+                    OrdenId = ordenCurso.Id,
+                    CursoID = curso.Id,
+                };
+                dbContext.OrdenDetalles.Add(ordenDetalle);
+            }
+           
+            dbContext.SaveChanges();
+
+            HttpContext.Session.Clear();
+
+            return RedirectToAction("Index","Home");
+            
+            
+        }
+
+      
+
+
+
+        [HttpDelete]
         public IActionResult Eliminar(int id)
         {
             List<CarroCompra> listCarro = new();

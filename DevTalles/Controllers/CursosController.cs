@@ -22,7 +22,7 @@ namespace DevTalles.Controllers
             this.hostEnvironment = hostEnvironment;
         }
 
-        //Esta Accion muestra la vista index con una tabla donde se muestran todos los Cursos
+        //Esta Accion muestra la vista index con una tabla donde se muestran todos los CursosLista
         public IActionResult Index()
         {
 

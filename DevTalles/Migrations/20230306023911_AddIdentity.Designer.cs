@@ -83,7 +83,7 @@ namespace DevTalles.Migrations
 
                     b.HasIndex("SubCategoriaId");
 
-                    b.ToTable("Cursos");
+                    b.ToTable("CursosLista");
                 });
 
             modelBuilder.Entity("DevTalles.Models.SubCategoria", b =>

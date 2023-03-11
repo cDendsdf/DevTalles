@@ -45,7 +45,7 @@ namespace DevTalles.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Cursos",
+                name: "CursosLista",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -77,12 +77,12 @@ namespace DevTalles.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cursos_CategoriaId",
-                table: "Cursos",
+                table: "CursosLista",
                 column: "CategoriaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cursos_SubCategoriaId",
-                table: "Cursos",
+                table: "CursosLista",
                 column: "SubCategoriaId");
 
             migrationBuilder.CreateIndex(
@@ -95,7 +95,7 @@ namespace DevTalles.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Cursos");
+                name: "CursosLista");
 
             migrationBuilder.DropTable(
                 name: "SubCategorias");
