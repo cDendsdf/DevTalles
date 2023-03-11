@@ -14,7 +14,7 @@ namespace DevTalles.Controllers
         private readonly ApplicationDbContext dbContext;
 
         [BindProperty]//Para utilizar esta variable en todo el controller y no perder sus datos
-        public UsuarioProductoVM usuarioProductoVM { get; set; }    
+        public UsuarioProductoVM usuarioProductoVM { get; set; }
 
         public CarroController(ApplicationDbContext dbContext)
         {
@@ -37,7 +37,7 @@ namespace DevTalles.Controllers
 
             List<int> idsCarroCompra = listaCompras.Select(c => c.CursoId).ToList();
 
-            IEnumerable<Curso> curso = dbContext.Cursos.Where(c => idsCarroCompra.Contains(c.Id));
+            List<Curso> curso = dbContext.Cursos.Where(c => idsCarroCompra.Contains(c.Id)).ToList();
 
 
             return View(curso);
@@ -49,10 +49,43 @@ namespace DevTalles.Controllers
         //y los cursos seleccionados para mostrarlos en la vista.
         public IActionResult Resumen()
         {
-            //traer usuario conectado ala aplicacion
 
-            var clainUsers = (ClaimsIdentity)User.Identity;
-            var clain = clainUsers.FindFirst(ClaimTypes.NameIdentifier);
+            UsuarioAplicacion usuario;
+            if (User.IsInRole(WC.AdminRole))
+            {
+
+                //si el usuario es admin y desea actualizar una orden existente
+                if (HttpContext.Session.Get<int>(WC.SessionOrdenId) != 0)
+                {
+                    //obtenemos la orden a actualizar
+                    Orden orden = dbContext.Ordenes.Find(HttpContext.Session.Get<int>(WC.SessionOrdenId));
+
+
+                    //obtenemos el usuario que pertenece ala orden
+                    usuario = new UsuarioAplicacion()
+                    {
+                        Email = orden.Email,
+                        NombreCompleto = orden.NombreCompleto,
+                        PhoneNumber = orden.Telefono
+                    };
+                }
+                else
+                { //si no le damos la opcion al admin que ingrese al usuario
+                    usuario = new UsuarioAplicacion();
+                }
+            }
+            else
+            {
+                //traer usuario conectado ala aplicacion
+
+                var clainUsers = (ClaimsIdentity)User.Identity;
+                var clain = clainUsers.FindFirst(ClaimTypes.NameIdentifier);
+
+                usuario = dbContext.UsuariosAplicacion.FirstOrDefault(us => us.Id == clain.Value);
+            }
+
+
+           
 
 
 
@@ -66,13 +99,13 @@ namespace DevTalles.Controllers
 
             List<int> idsCarroCompra = listaCompras.Select(c => c.CursoId).ToList();
 
-           
+
 
             usuarioProductoVM = new UsuarioProductoVM()
             {
-                UsuarioAplicacion = dbContext.UsuariosAplicacion.FirstOrDefault(us => us.Id == clain.Value),
-                CursosLista = dbContext.Cursos.Where(c => idsCarroCompra.Contains(c.Id)).ToList(),
-                
+                UsuarioAplicacion = usuario,
+                CursosLista = dbContext.Cursos.Where(c => idsCarroCompra.Contains(c.Id)).ToList()
+
             };
 
             return View(usuarioProductoVM);
@@ -84,10 +117,15 @@ namespace DevTalles.Controllers
         [ActionName("Resumen")]
         public IActionResult ResumenPost(UsuarioProductoVM usuarioProductoVM)
         {
-            
-
+          //Obtenemos el usuario autenticado
             var ClaimUser = (ClaimsIdentity)User.Identity;
             var Claim = ClaimUser.FindFirst(ClaimTypes.NameIdentifier);
+
+            var usuario = dbContext.UsuariosAplicacion.FirstOrDefault(us => us.Id == Claim.Value);
+
+            
+
+
 
             //Gurdamos la Orden Con la informacion del usuario
             Orden ordenCurso = new Orden()
@@ -101,7 +139,7 @@ namespace DevTalles.Controllers
             };
 
             dbContext.Ordenes.Add(ordenCurso);
-             dbContext.SaveChanges();
+            dbContext.SaveChanges();
 
             //Grabamos la orden con la data relacionada entre orden y producto
 
@@ -111,34 +149,35 @@ namespace DevTalles.Controllers
                 {
                     OrdenId = ordenCurso.Id,
                     CursoID = curso.Id,
+                    UsuarioId = usuario.Id
                 };
                 dbContext.OrdenDetalles.Add(ordenDetalle);
             }
-           
+
             dbContext.SaveChanges();
 
             HttpContext.Session.Clear();
 
-            return RedirectToAction("Index","Home");
-            
-            
+            return RedirectToAction("Index", "Home");
+
+
         }
 
-      
 
 
 
-        [HttpDelete]
+
+  
         public IActionResult Eliminar(int id)
         {
             List<CarroCompra> listCarro = new();
-            if (HttpContext.Session.Get<IEnumerable<CarroCompra>>(WC.VariableSession) != null && HttpContext.Session.Get<IEnumerable<CarroCompra>>(WC.VariableSession).Count()>0)
+            if (HttpContext.Session.Get<IEnumerable<CarroCompra>>(WC.VariableSession) != null && HttpContext.Session.Get<IEnumerable<CarroCompra>>(WC.VariableSession).Count() > 0)
             {
                 listCarro = HttpContext.Session.Get<List<CarroCompra>>(WC.VariableSession);
             }
 
             listCarro.Remove(listCarro.FirstOrDefault(c => c.CursoId == id));
-            HttpContext.Session.Set(WC.VariableSession,listCarro);
+                HttpContext.Session.Set(WC.VariableSession, listCarro);
 
             return RedirectToAction("Index");
         }

@@ -20,5 +20,12 @@ namespace DevTalles.Models
         [ForeignKey("CursoID")]
         public Curso Curso { get; set; }
 
+
+        [Required]
+        public string UsuarioId { get; set; }
+
+        [ForeignKey("UsuarioId")]
+        public UsuarioAplicacion UsuarioAplicacion { get; set; }
+
     }
 }

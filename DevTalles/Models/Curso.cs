@@ -19,7 +19,7 @@ namespace DevTalles.Models
 
         [Required(ErrorMessage = "El Precio del Producto es Requerido")]
         [Range(1, double.MaxValue, ErrorMessage = "El Precio debe de ser Mayor a cero")]
-        public Decimal Precio { get; set; }
+        public double Precio { get; set; }
 
 
         public string ImagenUrl { get; set; }
@@ -36,6 +36,8 @@ namespace DevTalles.Models
 
         [ForeignKey("SubCategoriaId")]
         public virtual SubCategoria? SubCategoria { get; set; }
+
+            
 
     }
 }

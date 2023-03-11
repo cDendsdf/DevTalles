@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using DevTalles.Data;
 
 namespace DevTalles.Areas.Identity.Pages.Account
 {
@@ -21,11 +22,15 @@ namespace DevTalles.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public LoginModel(SignInManager<IdentityUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<IdentityUser> signInManager, ILogger<LoginModel> logger, UserManager<IdentityUser> userManager , RoleManager<IdentityRole> roleManager)
         {
             _signInManager = signInManager;
             _logger = logger;
+            _userManager = userManager;
+            _roleManager = roleManager;
         }
 
         /// <summary>
@@ -90,6 +95,35 @@ namespace DevTalles.Areas.Identity.Pages.Account
             {
                 ModelState.AddModelError(string.Empty, ErrorMessage);
             }
+
+            if (!await _roleManager.RoleExistsAsync(WC.AdminRole))
+            {
+                await _roleManager.CreateAsync(new IdentityRole(WC.AdminRole));
+                await _roleManager.CreateAsync(new IdentityRole(WC.ClienteRole));
+            }
+
+            var UserEmail = "Admin@admin.com";
+            var adminUser = await _userManager.FindByEmailAsync(UserEmail);
+
+
+            if (adminUser == null)
+            {
+                adminUser = new IdentityUser()
+                {
+                    Email = UserEmail,
+                    UserName = UserEmail
+                };
+
+
+                await _userManager.CreateAsync(adminUser, "Admin123*");
+            }
+
+
+            if (!await _userManager.IsInRoleAsync(adminUser, WC.AdminRole))
+            {
+                await _userManager.AddToRoleAsync(adminUser, WC.AdminRole);
+            }
+
 
             returnUrl ??= Url.Content("~/");
 

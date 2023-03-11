@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DevTalles.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230309040930_ordenyDetalle")]
-    partial class ordenyDetalle
+    [Migration("20230311083548_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -71,8 +71,8 @@ namespace DevTalles.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("Precio")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("Precio")
+                        .HasColumnType("float");
 
                     b.Property<int>("SubCategoriaId")
                         .HasColumnType("int");
@@ -83,7 +83,7 @@ namespace DevTalles.Migrations
 
                     b.HasIndex("SubCategoriaId");
 
-                    b.ToTable("CursosLista");
+                    b.ToTable("Cursos");
                 });
 
             modelBuilder.Entity("DevTalles.Models.Orden", b =>
@@ -134,11 +134,17 @@ namespace DevTalles.Migrations
                     b.Property<int>("OrdenId")
                         .HasColumnType("int");
 
+                    b.Property<string>("UsuarioId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CursoID");
 
                     b.HasIndex("OrdenId");
+
+                    b.HasIndex("UsuarioId");
 
                     b.ToTable("OrdenDetalles");
                 });
@@ -425,9 +431,17 @@ namespace DevTalles.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("DevTalles.Models.UsuarioAplicacion", "UsuarioAplicacion")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Curso");
 
                     b.Navigation("Orden");
+
+                    b.Navigation("UsuarioAplicacion");
                 });
 
             modelBuilder.Entity("DevTalles.Models.SubCategoria", b =>

@@ -29,7 +29,7 @@
                                     </div>
 
 
-                                    <div class="col-12 col-lg-7">
+                                    <div class="col-12 col-lg-6">
                                         Detalle de producto
                                     </div>
 
@@ -37,6 +37,7 @@
                                     <div class="col-12 col-lg-2">
                                         Precio de producto
                                     </div>
+                                
 
 
 
@@ -45,15 +46,22 @@
                                 </div>
                             </div>
                    
-
+                            @{
+                                var total = 0.0;
+                            }
                         <hr />
                         @foreach (var item in Model)
                         {
+
+                                
+
+                                
+
                             <div class="row my-2 h-100">
                                 <div class="col-4 col-md-2 text-center py-2">
                                     <img src="@WC.RutaImagen@item.ImagenUrl" class="rounded" width="90%" />
                                 </div>
-                                <div class="col-8 col-lg-7">
+                                <div class="col-8 col-lg-6">
                                     <h5>@item.NombreProducto</h5>
                                     <div style="font-size:17px;">@item.DescripcionCorta</div>
                                 </div>
@@ -61,10 +69,12 @@
 
 
 
-                                <div class="col-3 col-lg-2 pt-lg-4" style="font-size:11px;">
-                                    <span style="font-size:27px;"> @item.Precio</span>
+                                <div class="col-3 col-lg-2 pt-lg-4 m-0" style="font-size:11px;">
+                                    <span style="font-size:27px;"> $@item.Precio</span>
 
                                 </div>
+                                
+                        
 
 
                                 <div class="col-2 col-lg-1 p-0 pt-lg-4 text-center my-2">
@@ -75,7 +85,12 @@
                                 
                                 
                             </div>
+                                total = total + item.Precio;
                             }
+
+                            <div class="col-12 text-end pr-4" style="color:#821f3d">
+                                Total Orden: @string.Format("{0:c}", total)
+                            </div>
                             
                             
                             <hr />

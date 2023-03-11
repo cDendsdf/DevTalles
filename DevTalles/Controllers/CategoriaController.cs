@@ -86,22 +86,8 @@ namespace DevTalles.Controllers
 
 
 
-        //get Esta Accion muestra la vista eliminar con los datos del modelo a eliminar
-        //public IActionResult Eliminar(int? id)
-        //{
-        //    if (id is null || id == 0)
-        //    {
-        //        return NotFound();
-        //    }
+       
 
-        //    var categoriadb = _db.Categorias.Find(id);
-        //    if (categoriadb is null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(categoriadb);
-        //}
         
 
         //Esta Accion Elimina el Registro en la base de datos

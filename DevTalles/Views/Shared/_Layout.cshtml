@@ -33,7 +33,7 @@
 
             <a asp-action"Index" asp-controller="Home" class="fs-3 fw-bold m-0 me-4 nav-link"> <span class="text-success">D</span>evtalles</a>
 
-            <ul class="navbar-nav">
+            <ul class="navbar-nav ">
                 @if (User.IsInRole(WC.AdminRole))
                 {
                     <li class="nav-item dropdown">
@@ -45,9 +45,12 @@
                             <li><a class="dropdown-item" asp-area="" asp-controller="SubCategoria" asp-action="index">SubCategorias</a></li>
                             <li><a class="dropdown-item" asp-area="" asp-controller="Cursos" asp-action="index">Cursos</a></li>
                             <li><a class="dropdown-item" asp-area="Identity" asp-page="/Account/Register">Crear Nuevo Usuario</a></li>
+                            <li><a class="dropdown-item" asp-area="" asp-controller="Ordenes" asp-action="Index">Orden</a></li>
+                            <li><a class="dropdown-item" asp-area="" asp-controller="venta" asp-action="Index">Venta</a></li>
 
                         </ul>
                     </li>
+                   
                 }
             </ul>
 

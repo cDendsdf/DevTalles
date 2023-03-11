@@ -121,13 +121,36 @@ namespace DevTalles.Areas.Identity.Pages.Account
 
         public async Task OnGetAsync(string returnUrl = null)
         {
-            //Este codigo se encarga de crear dos roles con sus respectivos nombres, los cuales son "AdminRole" y "ClienteRole".
-            //Si los roles no existen, son creados.
-            if (!await _roleManager.RoleExistsAsync(WC.AdminRole) )
+
+            if (!await _roleManager.RoleExistsAsync(WC.AdminRole))
             {
                 await _roleManager.CreateAsync(new IdentityRole(WC.AdminRole));
                 await _roleManager.CreateAsync(new IdentityRole(WC.ClienteRole));
             }
+
+            var UserEmail = "Admin@admin.com";
+            var adminUser = await _userManager.FindByEmailAsync(UserEmail);
+
+
+            if (adminUser == null)
+            {
+                adminUser = new IdentityUser()
+                {
+                    Email = UserEmail,
+                    UserName = UserEmail
+                };
+
+
+                await _userManager.CreateAsync(adminUser, "Admin123*");
+            }
+
+
+            if (!await _userManager.IsInRoleAsync(adminUser, WC.AdminRole))
+            {
+                await _userManager.AddToRoleAsync(adminUser, WC.AdminRole);
+            }
+
+
 
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
@@ -141,6 +164,9 @@ namespace DevTalles.Areas.Identity.Pages.Account
             {
                 //var user = CreateUser();Acemos referencia a nuestro modelo
                 //para guardar en base de datos
+
+
+               
 
                 var user = new UsuarioAplicacion
                 {
@@ -159,8 +185,15 @@ namespace DevTalles.Areas.Identity.Pages.Account
                 if (result.Succeeded)//si se cumple se crea el usuario
                 {
 
+                   
 
-                    //Sie el usuario conectado tiene el rol de administrador se le permite
+
+
+
+
+
+
+                    //Si el usuario conectado tiene el rol de administrador se le permite
                     //crear usuarios Administradores si no solo cliente
                     if (User.IsInRole(WC.AdminRole))
                     {
@@ -170,6 +203,7 @@ namespace DevTalles.Areas.Identity.Pages.Account
                     {
                         await _userManager.AddToRoleAsync(user, WC.ClienteRole);
                     }
+
 
 
 
