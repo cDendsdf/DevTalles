@@ -34,6 +34,8 @@ namespace DevTalles.Controllers
 
 
      
+        // se encarga de mostrar la informacion del Curso que se quiere agregar al carro de  compras
+        //valida primero si no existe este Curso en el carro si ya existe nos da la opcion para remover del carro  
         public  IActionResult Detalle(int id)
 		{
             List<CarroCompra> listaCompra = new List<CarroCompra>();
@@ -63,12 +65,14 @@ namespace DevTalles.Controllers
 		}
 
 
+        //aqui se pone la logica de agregar una sessio que guarde los producto en el carro de compras
+
 
         [Authorize]
 
-        [HttpPost , ActionName("Detalle")] 
+        [HttpPost, ActionName("Detalle")]
         public IActionResult DetallePost(int id)
-        { //e crea una lista de objetos CarroCompra para almacenar los cursos. Luego, se verifica si hay elementos en la sesión,
+        { //se crea una lista de objetos CarroCompra para almacenar los cursos. Luego, se verifica si hay elementos en la sesión,
           //y si hay, se asignan a la lista. Por último, se agrega el nuevo curso a la lista y se guarda en la sesión. 
 
             List<CarroCompra> listaCompra = new List<CarroCompra>();
@@ -84,7 +88,7 @@ namespace DevTalles.Controllers
             return RedirectToAction("Index");
         }
 
-        
+
         public IActionResult RemoverDeCarro(int id)
         { //e crea una lista de objetos CarroCompra para almacenar los cursos. Luego, se verifica si hay elementos en la sesión,
           //y si hay, se asignan a la lista. Por último, se Elimina el  curso de la lista y se Actualiza en la sesión. 

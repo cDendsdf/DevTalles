@@ -45,7 +45,8 @@ namespace DevTalles.Controllers
 
         [HttpPost]
         [AutoValidateAntiforgeryToken]
-        public IActionResult Detalle()
+        [ActionName("Detalle")]
+        public IActionResult DetalleOrden()
         {
 
             

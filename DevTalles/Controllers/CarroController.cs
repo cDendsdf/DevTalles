@@ -112,6 +112,11 @@ namespace DevTalles.Controllers
         }
 
 
+       //Una vez confirmada la orden se guarda la orden y el detalle de la orden en
+       //la base de datos 
+
+
+
         [HttpPost]
         [AutoValidateAntiforgeryToken]
         [ActionName("Resumen")]
@@ -121,7 +126,7 @@ namespace DevTalles.Controllers
             var ClaimUser = (ClaimsIdentity)User.Identity;
             var Claim = ClaimUser.FindFirst(ClaimTypes.NameIdentifier);
 
-            var usuario = dbContext.UsuariosAplicacion.FirstOrDefault(us => us.Id == Claim.Value);
+            
 
             
 
@@ -149,7 +154,9 @@ namespace DevTalles.Controllers
                 {
                     OrdenId = ordenCurso.Id,
                     CursoID = curso.Id,
-                    UsuarioId = usuario.Id
+                    UsuarioId = Claim.Value
+                    
+                    
                 };
                 dbContext.OrdenDetalles.Add(ordenDetalle);
             }
@@ -166,8 +173,8 @@ namespace DevTalles.Controllers
 
 
 
+        //Esta se encarga de eliminar los productos que estan en la vista carro de compras
 
-  
         public IActionResult Eliminar(int id)
         {
             List<CarroCompra> listCarro = new();
@@ -177,7 +184,7 @@ namespace DevTalles.Controllers
             }
 
             listCarro.Remove(listCarro.FirstOrDefault(c => c.CursoId == id));
-                HttpContext.Session.Set(WC.VariableSession, listCarro);
+            HttpContext.Session.Set(WC.VariableSession, listCarro);
 
             return RedirectToAction("Index");
         }
