@@ -26,27 +26,45 @@ namespace DevTalles.Controllers
         public IActionResult Index()
         {
             var ordenDetalle = db.OrdenDetalles.ToList();
-            
 
+            var claimUser = (ClaimsIdentity)User.Identity;
+            var claim = claimUser.FindFirst((ClaimTypes.NameIdentifier));
             if (ordenDetalle.Count() != 0)
             {
-                var claimUser = (ClaimsIdentity)User.Identity;
-                var claim = claimUser.FindFirst((ClaimTypes.NameIdentifier));
-                ordenDetalle = db.OrdenDetalles.Where(c => c.UsuarioId == claim.Value).ToList();
+              
 
-                HomeVM model = new()
-                {
-                    Categorias = db.Categorias.ToList(),
-                    CursosDisponibles = db.Cursos.Any(),
-                    Cursos = db.Cursos.Include(c => c.Categoria).Include(c => c.SubCategoria)
-                };
 
-                foreach (var item in ordenDetalle)
+                if (claim != null)
                 {
-                    model.Cursos = model.Cursos.Where(c => c.Id != item.CursoID);
+                     ordenDetalle = db.OrdenDetalles.Where(c => c.UsuarioId == claim.Value).ToList();
+                    HomeVM model = new()
+                    {
+                        Categorias = db.Categorias.ToList(),
+                        CursosDisponibles = db.Cursos.Any(),
+                        Cursos = db.Cursos.Include(c => c.Categoria).Include(c => c.SubCategoria)
+                    };
+
+                    foreach (var item in ordenDetalle)
+                    {
+                        model.Cursos = model.Cursos.Where(c => c.Id != item.CursoID);
+                    }
+
+                    return View(model);
                 }
+                else
+                {
+                    HomeVM model = new()
+                    {
+                        Cursos = db.Cursos.Include(c => c.Categoria).Include(c => c.SubCategoria),
+                        Categorias = db.Categorias.ToList(),
+                        CursosDisponibles = db.Cursos.Any()
+                    };
 
-                return View(model);
+                    return View(model);
+                }
+             
+
+               
             }
             else
             {
@@ -59,7 +77,7 @@ namespace DevTalles.Controllers
 
                 return View(model);
             }
-        }
+            }
 
 
         public IActionResult UsuarioCurso()
