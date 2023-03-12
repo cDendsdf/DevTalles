@@ -28,7 +28,7 @@
 
 
 
-    <header class="header container-fluid mb-4">
+    <header class="header container-fluid ">
         <div class="d-flex justify-content-between align-items-center p-3 shadow-sm">
 
             <a asp-action="Index" asp-controller="Home" class="fs-3 fw-bold m-0 me-4 nav-link"> <span class="text-success">D</span>evtalles</a>
@@ -60,34 +60,40 @@
                        placeholder="Busca cualquier cosa" />
             </form>
 
-            <nav class="d-flex">
-                @*comprueba si hay una sesión de CarroCompras en la solicitud. Si hay una sesión, se muestra
+
+            @if (User.IsInRole(WC.AdminRole) || User.IsInRole(WC.ClienteRole))
+            {
+
+                <nav class="d-flex">
+                    @*comprueba si hay una sesión de CarroCompras en la solicitud. Si hay una sesión, se muestra
                 el número de artículos en el carrito de la compra. Si no hay una sesión, se muestra un enlace de carrito de compras con 0 artículos.*@
 
-                @if (httpAccesor.HttpContext.Session.Get<List<CarroCompra>>(@WC.VariableSession) != null)
-                {
+                    @if (httpAccesor.HttpContext.Session.Get<List<CarroCompra>>(@WC.VariableSession) != null)
+                    {
 
-                    <a  asp-action="Index" asp-controller="Carro" class="text-dark nav-link">
-                        @{
-                            var count = httpAccesor.HttpContext.Session.Get<List<CarroCompra>>(@WC.VariableSession).Count();
-                        }
-                        <i class="fas fa-shopping-cart "></i>  (@count)
+                        <a asp-action="Index" asp-controller="Carro" class="text-dark nav-link">
+                            @{
+                                var count = httpAccesor.HttpContext.Session.Get<List<CarroCompra>>(@WC.VariableSession).Count();
+                            }
+                            <i class="fas fa-shopping-cart "></i>  (@count)
+                        </a>
+                    }
+                    else
+                    {
+                        <a class="text-dark nav-link" href="#">
+
+                            <i class="fas fa-shopping-cart"></i> &nbsp; (0)
+                        </a>
+                    }
+
+                    <a class="text-dark nav-link" asp-action="UsuarioCurso" asp-controller="Home">
+
+                        Mis Cursos
                     </a>
-                }
-                else
-                {
-                    <a class="text-dark nav-link" href="#" >
 
-                        <i class="fas fa-shopping-cart"></i> &nbsp; (0)
-                    </a>
-                }
+                </nav>
+            }
 
-           <a class="text-dark nav-link" asp-action="UsuarioCurso" asp-controller="Home">
-
-                 Mis Cursos
-                </a>
-
-            </nav>
 
             <nav class="mx-3">
                 <partial name="_LoginPartial" />
@@ -103,9 +109,30 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2023 - DevTalles - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+
+
+
+    <footer class="bg-dark py-5">
+        <div class="container-xl">
+            <div class="row align-items-start">
+                <nav class="col-md-4 d-flex">
+                    
+                    <a  href="https://www.udemy.com/teaching/?ref=teach_footer" class="text-light text-decoration-none nav-link">Enseña en U</a>
+                    <a href="https://www.udemy.com/mobile/" class="text-light text-decoration-none nav-link">Consigue la App</a>
+                    <a asp-action="Index" asp-controller="Home" class="btn btn-outline-light">Inicio</a>
+             
+                </nav>
+
+         
+
+            
+            </div>
+        </div>
+
+        <div class="container-xl mt-5 d-flex justify-content-between align-items-center">
+            <p class="text-light fs-3 fw-bold"> <span class="text-success">D</span>evtalles</p>
+
+            <p class="text-light">&copy; Devtalles 2023.</p>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

@@ -1,34 +1,95 @@
+@using DevTalles.Data;
 @using DevTalles.Models.ViewModels;
 @model HomeVM
 
-<div class="container">
-	<div class="text-center">
-		<button class="btn btn-dark filter-button" data-filter="all">Todos</button>
 
+
+
+
+
+
+<partial name="_SeccionCurso" />
+
+
+
+<section class="cursos container-xl mt-5 pt-5">
+	<h3>Una amplia selección de cursos</h3>
+	<p class="fs-4">Elige entre más de 155,000 cursos en video y en línea con nuevo contenido cada mes</p>
+
+		<nav class="nav">
 		@foreach (var cat in Model.Categorias)
 		{
-			<button class="btn btn-outline-secondary filter-button" data-filter="@cat.NombreCategoria.Replace(' ','_')">
-				@cat.NombreCategoria
-			</button>
+			<li class="nav-item">
+					<a class="nav-link filter-button" data-filter="@cat.NombreCategoria.Replace(' ','_')" style="cursor:pointer;">
+						@cat.NombreCategoria
+					</a>
+
+			</li>
 		}
+		</nav>
 
-	</div>
-	<br />
+	<div class="categoria-curso p-4 mt-3">
+		<p class="fs-4 fw-bold">Amplia tus oportunidades con JavaScript y Front End</p>
+		<p>Aprende con los mejores Cursos de Internet</p>
 
-	<div class="row">
+		<button class="btn btn-dark filter-button" data-filter="all">Todos</button>
+
+		
 		@foreach (var prod in Model.Cursos)
 		{
 			// Desplegar todos los productos
 			<partial name="_CardProductos" model="prod" />
 		}
 
-		<div class="validarCurso" id="no-courses-msg" style="display:none">
-			<div class="col-12 text-center">
-				<p>No hay cursos disponibles.</p>
-			</div>
 	</div>
+</section>
 
-</div>
+
+<section class="bg-light my-5 py-5">
+	<div class="container-fluid">
+		<div class="row justify-content-between align-items-center">
+			<div class="col-md-3 mb-5 mb-md-0">
+				<div class="d-flex justify-content-around align-items-center">
+					<div class="me-3">
+						<div class="icono">
+							<i class="bi bi-play-fill fs-3"></i>
+						</div>
+					</div>
+					<p class="fw-bold m-0">Aprende habilidades a tu ritmo con más de 150 000 cursos en video</p>
+				</div>
+			</div><!--.col-md-3-->
+
+			<div class="col-md-3 mb-5 mb-md-0">
+				<div class="d-flex justify-content-around align-items-center">
+					<div class="me-3">
+						<div class="icono">
+							<i class="bi bi-star-fill fs-3"></i>
+						</div>
+					</div>
+					<p class="fw-bold m-0">Compra cursos impartidos por expertos del mundo real y obten un empleo</p>
+				</div>
+			</div><!--.col-md-3-->
+
+			<div class="col-md-3 mb-5 mb-md-0">
+				<div class="d-flex justify-content-around align-items-center">
+					<div class="me-3">
+						<div class="icono">
+							<i class="bi bi-phone-fill fs-3"></i>
+						</div>
+					</div>
+					<p class="fw-bold m-0">Aprende a tu ritmo, con acceso de por vida desde ordenadores o dispositivos móviles</p>
+				</div>
+			</div><!--.col-md-3-->
+		</div>
+	</div>
+</section>
+
+
+<partial name="_SeccionInfo"/>
+
+
+
+
 
 @section Scripts{
 

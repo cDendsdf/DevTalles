@@ -1,3 +1,4 @@
+// Reescribir colores
 $negro: #000;
 $blanco: #FFF;
 $morado: #A435F0;
@@ -25,7 +26,7 @@ $input-border-color: $dark;
 
 // Enlaces
 $nav-link-color: $gris-oscuro;
-
+$nav-link-hover-color: $dark;
 $nav-link-font-weight: 700;
 $nav-link-font-size: .9rem;
 
@@ -37,5 +38,9 @@ $btn-font-weight: 700;
 $card-spacer-x: 0;
 $card-border-radius: 0;
 $card-border-width: 0;
+
+// Habilitar CSS Grid
+$enable-cssgrid: true;
+
 // Importar Bootstrap
-@import '../../wwwroot/lib/bootstrap/scss/bootstrap.scss';
+@import '../../node_modules/bootstrap/scss/bootstrap.scss';

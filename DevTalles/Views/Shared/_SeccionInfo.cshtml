@@ -1,0 +1,32 @@
+﻿@using DevTalles.Data;
+
+
+@{
+    var img = "persona2.png";
+    var img2 = "transforma.png";
+}
+<section class="container-xl py-5">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-md-5">
+            <h2 class="fs-3">Devtalles <span class="text-success">business</span> </h2>
+            <p>Plataforma creada y diseñada por estudiantes de la univercidad Autonoma de Chinandega. Elaborada como proyecto final para Modulos en el Año 2023 </p>
+            
+        </div>
+        <div class="col-md-5">
+           <img class="img-fluid" src="@WC.RutaImagen@img" alt="imagen persona udemy for business">
+        </div>
+    </div>
+</section>
+
+<section class="container-xl py-5">
+    <div class="row align-items-center justify-content-center">
+        <div class="col-md-5 order-2 order-md-1">
+            <img class="img-fluid" src="@WC.RutaImagen@img2" alt="imagen transforma">
+        </div>
+        <div class="col-md-5 mb-5 mb-md-0 order-1 order-md-2">
+            <h2 class="fs-3">Transforma tu vida mediante la educación</h2>
+            <p>Èsperamos continuar mejorando la aplicacion ya que hasta el momento faltan funcionalidades</p>
+            <a href="#" class="btn btn-dark">Descubre cómo</a>
+        </div>
+    </div>
+</section>
