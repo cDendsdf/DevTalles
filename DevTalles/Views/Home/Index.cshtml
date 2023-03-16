@@ -34,12 +34,15 @@
 
 		<button class="btn btn-dark filter-button" data-filter="all">Todos</button>
 
+		<ul class="list-unstyled mt-5 listado-cursos">
 		
 		@foreach (var prod in Model.Cursos)
 		{
 			// Desplegar todos los productos
 			<partial name="_CardProductos" model="prod" />
 		}
+
+		</ul>
 
 	</div>
 </section>

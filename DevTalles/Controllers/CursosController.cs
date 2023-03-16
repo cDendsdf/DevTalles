@@ -46,13 +46,18 @@ namespace DevTalles.Controllers
             };
 
 
+
             if (id == null)
             {
                 return View(model);
+
             }
             else
             {
                 model.Curso = await db.Cursos.FindAsync(id);
+                
+                
+             
                 if (model.Curso is null)
                 {
                     return NotFound();
@@ -211,19 +216,29 @@ namespace DevTalles.Controllers
             }
             else
             {
-                var wwwroot = hostEnvironment.ContentRootPath;
+                var wwwroot = hostEnvironment.WebRootPath;
                 var upload = wwwroot + CursoDB.ImagenUrl;
+
 
                 if (System.IO.File.Exists(upload))
                 {
                     System.IO.File.Delete(upload);
                 }
-
                 db.Cursos.Remove(CursoDB);
                 await db.SaveChangesAsync();
 
                 return Json(new { success = true, message = "Curso eliminado Correctamente" });
             }
+        }
+
+
+        [HttpGet]
+        public async Task<JsonResult> ObtenerSubCategoria(int id)
+        {
+            var subcategorias = db.SubCategorias.Where(sc => sc.CategoriaId == id);
+
+            IEnumerable<SelectListItem> categorias = subcategorias.Select(sb => new SelectListItem(sb.Nombre, sb.SubCategoriaId.ToString()));
+            return Json(categorias);
         }
 
 
