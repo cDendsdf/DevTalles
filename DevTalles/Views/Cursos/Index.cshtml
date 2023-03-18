@@ -20,8 +20,8 @@
 
     @if (Model.Count() > 0)
     {
-        <table class="table table-bordered table-striped" style="width:100%">
-            <thead>
+        <table class="table table-bordered table-striped " style="width:100%">
+            <thead class="table-dark">
                 <tr>
                     <th>
                         Nombre
@@ -58,11 +58,11 @@
                         <th>@item.SubCategoria.Nombre</th>
                         <th class="text-center">
                             <div class="w-75 btn-group" role="group">
-                                <a asp-controller="Cursos" asp-action="Upsert" asp-route-Id="@item.Id" class="btn btn-primary mx-2">
+                                <a asp-controller="Cursos" asp-action="Upsert" asp-route-Id="@item.Id" class="btn btn-success mx-2">
                                     <i class="fas fa-edit"></i>
                                 </a>
 
-                                <a onclick=Delete("@rutaPost") class="btn btn-danger mx-2">
+                                <a onclick=Delete("@rutaPost") class="btn btn-outline-danger mx-2">
                                     <i class="far fa-trash-alt"></i>
                                 </a>
 

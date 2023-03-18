@@ -35,7 +35,7 @@ namespace DevTalles.Controllers
 
 
         //UPSERT Es una Accion que sirve para actualizar campos o agregar campos validando si se pasa el ID
-
+        
         public async Task<IActionResult> Upsert(int? id)
         {
             var model = new CursoViewModel()
@@ -55,9 +55,9 @@ namespace DevTalles.Controllers
             else
             {
                 model.Curso = await db.Cursos.FindAsync(id);
-                
-                
-             
+
+
+
                 if (model.Curso is null)
                 {
                     return NotFound();
@@ -178,9 +178,9 @@ namespace DevTalles.Controllers
                     {
                         //en nuestro sistema requerimos que se seleccione una imagen por lo cual si no se hace regresamos ala misma vista pasandole el model
 
-                        
-         
-                        
+
+
+
                         model.Curso.ImagenUrl = cursoDb.ImagenUrl;
                         db.Cursos.Update(model.Curso);
                         await db.SaveChangesAsync();
@@ -189,13 +189,13 @@ namespace DevTalles.Controllers
 
                 }
                 return View(model);
-            
+
 
 
             }
 
 
-            
+
 
         }
 
@@ -204,13 +204,13 @@ namespace DevTalles.Controllers
         //Esta accion es para Eliminar los datos de la base de datos
 
         [HttpDelete]
-      
+
 
         public async Task<IActionResult> Delete(int id)
         {
             var CursoDB = await db.Cursos.FindAsync(id);
 
-            if (CursoDB == null) 
+            if (CursoDB == null)
             {
                 return Json(new { success = false, message = "Error al borrar tu Curso" });
             }
@@ -254,5 +254,7 @@ namespace DevTalles.Controllers
         {
             return db.SubCategorias.Select(c => new SelectListItem(c.Nombre, c.SubCategoriaId.ToString()));
         }
+
+
     }
 }
